@@ -22,7 +22,7 @@ const scene2 = new THREE.Scene();
 //camera
 const camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 0.1, 3000);
 const camera2 = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 0.1, 3000);
-camera2.position.set(10,2,4);
+camera2.position.set(0,2,4);
 
 //cameraphysics
 
@@ -51,10 +51,11 @@ window.addEventListener( "resize", function(){
 //importing custom model from blender with animation
 
 
-var model, environment, environmentCannon;
+var model, environment, navMap;
 
 const urlModel = new URL("fractal.glb", import.meta.url);
 const urlModelEnvironment = new URL("trainstation_edited.glb", import.meta.url);
+const urlNavMap = new URL("pathway_train.glb", import.meta.url);
 const assetLoader = new GLTFLoader();
 assetLoader.load(urlModel.href, function(gltf) {
     model = gltf.scene;
@@ -83,6 +84,77 @@ assetLoader.load(urlModelEnvironment.href, function(gltf) {
 if(environment){
     environment.visible = false;
 }
+
+assetLoader.load(urlNavMap.href, function(gltf) {
+    navMap = gltf.scene;
+
+    navMap.position.y += 2;
+    navMap.position.z += 2;
+    navMap.position.x -= 1/2;
+    navMap.traverse(child => {
+        if (child.isMesh) {
+          child.material = new THREE.MeshNormalMaterial();
+        }
+      });
+    scene2.add(navMap);
+    navMap.visible = false;
+})
+
+
+//using the navmap function
+const up = new THREE.Vector3(0.0, 1.0, 0.0);
+const down = new THREE.Vector3(0.0, -1.0, 0.0);
+const ENABLE_NAVMESH = true
+
+const positionVector = new THREE.Vector3();
+const collisionVector = new THREE.Vector3();
+const raycaster = new THREE.Raycaster(
+  positionVector,
+  down,
+  0.0,
+  10.0
+);
+
+let restoreCamPos = new THREE.Vector3();
+const useNavMap = (object) => {
+    if (!object || !navMap) {
+      return;
+    }
+    
+    // Ensure up and down vectors are pointing ±1.0 on Y-axis
+    up.normalize();
+    down.normalize();
+    
+    // Read world position of the object
+    object.getWorldPosition(positionVector);
+    
+    // Set collision vector to be a little above the object
+    collisionVector.copy(positionVector).add(up.multiplyScalar(2.0));
+  
+    // Point the raycaster down
+    raycaster.set(collisionVector, down);
+    
+    // See if ray intersects the navmesh
+    const hits = raycaster.intersectObject(navMap, true);
+    
+    if (hits[0]) {
+      // If there's an intersection, move cam to its position
+      const {point} = hits[0]  
+      object.position.y = point.y + 0.5;
+      object.position.z = point.z ;
+      object.position.x = point.x;
+      
+      restoreCamPos.copy(object.position);
+      
+      
+
+    } else {
+     
+      return ENABLE_NAVMESH ? false : true;
+    }
+    
+    return true;
+  };
 
 //animating background based on mouse cursor
 document.addEventListener('mousemove', onDocumentMouseMove)
@@ -212,6 +284,10 @@ function animate() {
     if (scrollPercent > 99) {
         //controls.connect()
         controls.lock()
+        if (!useNavMap(camera2)) {
+           camera2.position.copy(restoreCamPos);
+           
+          }
             if(keys['w']){
             controls.moveForward(Math.min(x, 0.05));
             x+=0.001;
