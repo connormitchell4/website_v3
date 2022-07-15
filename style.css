@@ -1,0 +1,169 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Bebas Neue', cursive;
+    font-family: 'Teko', sans-serif;
+    scroll-behavior: smooth;
+}
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;   
+    outline: none;
+    opacity: 1;
+    
+}
+
+body {
+
+    width: 100%;
+    background-color: black;
+    color: white;
+    
+}
+.container {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+
+    
+}
+.nav-links{
+    animation-delay: 2s;
+    position: fixed;
+    top: 30px;
+    z-index: 1;
+    display: flex;
+    width: 100%;
+    height: 60px;
+    z-index: 2;
+   
+}
+.nav-links ul {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    justify-content: center;
+    z-index: 2;
+    
+}
+.nav-links ul li {
+    list-style: none;
+    display: inline-block;
+    padding: 0px 10px;
+    list-style: none;
+   
+}
+.nav-links ul li a {
+    color: white;
+    font-style: normal;
+    text-decoration: none;
+    font-size: 30px;
+    text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000;
+}
+.nav-links ul li::after {
+    content: '';
+    width: 0%;
+    opacity: 0.5;
+    height: 3px;
+    background: white;
+    display: block;
+    margin: auto;
+    transition: 0.5s;
+    
+
+}
+.nav-links ul li:hover::after {
+    width: 100%;
+    opacity: 1;
+    transition: 0.5s;
+}
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+}
+h1 {
+    font-size: 4rem;
+    z-index: 1;
+    text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000;
+}
+p {
+    font-size: 1.5rem;
+    z-index: 1;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+p2 {
+    font-size: 1.5rem;
+    z-index: 1;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.blueshirt-img {
+    position: relative;
+    width: 700px;
+}
+
+#background p {
+    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: inline-block;
+    text-decoration: none;
+}
+
+#home p {
+    animation-delay: 0.5s;
+    font-size: 2.5rem;
+}
+#home p2 {
+    animation-delay: 2s;
+}
+#home h1 {
+    font-size: 7rem;
+    animation-delay: 2s;
+}
+#home-nav{
+    animation-delay: 2.5s;
+}
+#bg-nav{
+    animation-delay: 2.7s;
+}
+#pj-nav{
+    animation-delay: 2.9s;
+}
+#bg {
+    animation-delay: 3.5s;
+}
+.anim {
+    opacity: 0;
+    animation: moveup 4s ease forwards;
+}
+
+@keyframes moveup {
+    100%{
+        opacity: 1;
+    }
+}
+
+.logos {
+    position:relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+}
+.imgs img{
+    position: absolute;
+    width: 100px;
+}
+#projects {
+    height: 100vh;
+}
