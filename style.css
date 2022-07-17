@@ -106,7 +106,7 @@ p2 {
 }
 .blueshirt-img {
     position: relative;
-    width: 700px;
+    width: 60%;
 }
 
 #background p {
@@ -137,6 +137,9 @@ p2 {
 #pj-nav{
     animation-delay: 2.9s;
 }
+#contact-nav{
+    animation-delay: 3.1s;
+}
 #bg {
     animation-delay: 3.5s;
 }
@@ -160,10 +163,11 @@ p2 {
     width: 100%;
 
 }
-.imgs img{
-    position: absolute;
-    width: 100px;
-}
+
 #projects {
     height: 100vh;
 }
+#contact {
+    opacity: 0;
+}
+
